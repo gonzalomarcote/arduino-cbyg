@@ -9,6 +9,7 @@ ARDUINO_LIBS 		+= Wire \
                 	   SPI \
                 	   Time \
 			   TimeAlarms \
-			   Timezone
+			   Timezone \
+			   LiquidCrystal
 
 include /usr/share/arduino/Arduino.mk

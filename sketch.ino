@@ -9,13 +9,17 @@ Author: Gonzo - gonzalomarcote@gmail.com
 #include <WiFiUdp.h>
 #include <Time.h>
 #include <Timezone.h>
-
+#include <LiquidCrystal.h>
 
 // ledPin setup
 const int ledPin = 9;
 
 // PIR setup
-byte sensorPin = 3;
+byte sensorPin = 6;
+
+// LCD setup
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
 
 // Web service
 char server[] = "www.google.com";
@@ -126,8 +130,9 @@ void setup() {
   pinMode(sensorPin,INPUT);
 
   // Welcome message
-  Serial.println("== Welcome to Birdhouse V. 1.0 ==");
+  Serial.println("== Welcome to CBYG Temp sensor 1.0 ==");
   Serial.println("");
+
 
   // We connect to Wifi only on Arduino boot
   // Wifi setup
@@ -209,8 +214,8 @@ void setup() {
   Serial.print(+ ":") ;
   Serial.print(minute(central));
   Serial.print(":") ;
-  Serial.println(second(central));
-  
+  Serial.println(second(central));  
+
   // End setup
   Serial.println("");
   Serial.println("===========================");
@@ -227,33 +232,42 @@ void setup() {
     client.println();
   }
 
-  // Roi joke
-  Serial.println("Hola Roi");
-  Serial.println("Soy Robotito");
-  Serial.println("");
+  // Set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("Hola Roi!");
 
 }
 
 
 void loop() {
 
+  // Place cursor in second LCD line
+  lcd.setCursor(0, 1);
+
+  // Read motion sensor
   byte state = digitalRead(sensorPin);
   digitalWrite(ledPin, state);
   if(state == 1) {
-    Serial.println("Te he visto!");
+    Serial.println("Te veo!");
+    //lcd.print("Te veo!");
   }
   else if(state == 0) {
     Serial.println("Ahora no veo a nadie");
+    //lcd.print("Ahora no veo a nadie");
   }
 
+  lcd.setCursor(0, 1);
+  lcd.print(millis() / 1000);
   delay(500);
 
   // if there are incoming bytes available
   // from the server, read them and print them:
-  while (client.available()) {
-    char c = client.read();
-    Serial.write(c);
-  }
+  //while (client.available()) {
+  //  char c = client.read();
+  //  Serial.write(c);
+  //}
+
 
   // if the server's disconnected, stop the client:
   if (!client.connected()) {
@@ -264,5 +278,6 @@ void loop() {
     // do nothing forevermore:
     while (true);
   }
-  
+
+
 }
