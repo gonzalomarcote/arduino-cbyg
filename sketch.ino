@@ -18,8 +18,7 @@ const int ledPin = 9;
 byte sensorPin = 6;
 
 // LCD setup
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
-
+LiquidCrystal lcd(10, 8, 5, 4, 3, 2);
 
 // Web service
 char server[] = "www.google.com";
@@ -50,6 +49,7 @@ WiFiUDP Udp;				// A UDP instance to let us send and receive packets over UDP
 
 // --------- Functions ------------ //
 
+
 // Function to send an NTP request to the time server at the given address
 unsigned long sendNTPpacket(char* address) {
   // set all bytes in the buffer to 0
@@ -71,6 +71,7 @@ unsigned long sendNTPpacket(char* address) {
   Udp.beginPacket(address, 123); //NTP requests are to port 123
   Udp.write(packetBuffer, NTP_PACKET_SIZE);
   Udp.endPacket();
+  return 0;
 }
 
 // Function to get the NTP time in Unix time
@@ -128,6 +129,12 @@ void setup() {
 
   // Set PIR pin in
   pinMode(sensorPin,INPUT);
+
+  // Set LCD
+  lcd.begin(16, 2);
+
+  // Print a message to the LCD.
+  lcd.print("Hola Roi!");
 
   // Welcome message
   Serial.println("== Welcome to CBYG Temp sensor 1.0 ==");
@@ -195,6 +202,7 @@ void setup() {
   Serial.println(second(t));
   */
 
+
   // We update the current Time and Date with DST
   time_t central, utc;
   TimeChangeRule esCEST = {"CEST", Last, Sun, Mar, 2, +120};  // UTC + 2 hours
@@ -232,33 +240,32 @@ void setup() {
     client.println();
   }
 
-  // Set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("Hola Roi!");
-
 }
 
 
 void loop() {
 
-  // Place cursor in second LCD line
-  lcd.setCursor(0, 1);
-
   // Read motion sensor
   byte state = digitalRead(sensorPin);
   digitalWrite(ledPin, state);
+
   if(state == 1) {
     Serial.println("Te veo!");
-    //lcd.print("Te veo!");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Hola Roi!");
+    lcd.setCursor(0, 1);
+    lcd.print("Te veo!");
   }
   else if(state == 0) {
-    Serial.println("Ahora no veo a nadie");
-    //lcd.print("Ahora no veo a nadie");
+    Serial.println("Ahora no te veo");
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Hola Roi!");
+    lcd.setCursor(0, 1);
+    lcd.print("Ahora no te veo");
   }
 
-  lcd.setCursor(0, 1);
-  lcd.print(millis() / 1000);
   delay(500);
 
   // if there are incoming bytes available
@@ -270,14 +277,13 @@ void loop() {
 
 
   // if the server's disconnected, stop the client:
-  if (!client.connected()) {
-    Serial.println();
-    Serial.println("disconnecting from server.");
-    client.stop();
+  //if (!client.connected()) {
+  //  Serial.println();
+  //  Serial.println("disconnecting from server.");
+  //  client.stop();
 
     // do nothing forevermore:
-    while (true);
-  }
-
+  //  while (true);
+  //}
 
 }
