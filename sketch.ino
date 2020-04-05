@@ -133,9 +133,6 @@ void setup() {
   // Set LCD
   lcd.begin(16, 2);
 
-  // Print a message to the LCD.
-  lcd.print("Hola Roi!");
-
   // Welcome message
   Serial.println("== Welcome to CBYG Temp sensor 1.0 ==");
   Serial.println("");
@@ -250,23 +247,23 @@ void loop() {
   digitalWrite(ledPin, state);
 
   if(state == 1) {
-    Serial.println("Te veo!");
-    lcd.clear();
+    Serial.println("Door open. Turn on LCD and light");
+    digitalWrite(ledPin, state);
+    // Turn on the display
+    lcd.display();
+    delay(500);
     lcd.setCursor(0, 0);
-    lcd.print("Hola Roi!");
+    lcd.print("  CBYG - Rack");
     lcd.setCursor(0, 1);
-    lcd.print("Te veo!");
+    lcd.print("R:40  B:42  P:32");
+    delay(30000);
   }
   else if(state == 0) {
-    Serial.println("Ahora no te veo");
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Hola Roi!");
-    lcd.setCursor(0, 1);
-    lcd.print("Ahora no te veo");
+    Serial.println("Door closed. Turn off LCD and light");
+    // Turn off the display
+    lcd.noDisplay();
+    delay(500);
   }
-
-  delay(500);
 
   // if there are incoming bytes available
   // from the server, read them and print them:
