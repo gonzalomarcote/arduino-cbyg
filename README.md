@@ -1,5 +1,5 @@
 # arduino-cbyg
-Arduino project for checking temperature in LCD and turn on a light with motion sensor for my home rack
+Arduino project to check temperature and desplay it in LCD and turn on a light with motion sensor for my home rack.
 
 ### Arduino project for my home rack
 Arduino Uno board project that shows in an LCD the rack temperature and have a motion sensor that triggers a light.  
