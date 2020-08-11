@@ -1,9 +1,9 @@
 # arduino-cbyg
-Arduino project to check temperature and display it in one LCD and turn on a light with motion sensor for my home rack.
+Arduino project to display in one LCD data from serveral sensor from an MQTT broker.
 
-### Arduino project for my home rack
-Arduino Uno board project that shows in an LCD the rack temperature and have a motion sensor that triggers a light.  
-Optionally I will recollect servers temperatures with a web service and will start on fan on high temps.  
+### Arduino project to display in one LCD personal info
+Arduino Uno board project that shows in an LCD the rack and some servers termperature.  
+Optionally I will recollect another personal info from another sources and projects (surf tide, waves, etc).  
 Compiled with `arduino-mk` linux package.  
 
 `sketch.ino` -> is the main program file.  
